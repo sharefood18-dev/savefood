@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Available Food List</title>
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary-dark-brown: #3B2F2F;
+  --hover-medium-brown: #5C4033;
+  --background-light: #F5F3EF;
+  --text-light: #FDFDFD;
+  --border-muted: #BFA6A0;
+  --placeholder-muted: #A89C94;
+  --status-available: #7D5A50;
+  --status-distributed: #C8B6A6;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: var(--background-light);
+  color: var(--primary-dark-brown);
+}
+
+nav {
+  background: var(--primary-dark-brown);
+  color: var(--text-light);
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 3px 6px rgba(59, 47, 47, 0.3);
+}
+
+nav h2 {
+  font-size: 22px;
+}
+
+nav a {
+  color: var(--text-light);
+  text-decoration: none;
+  font-weight: 500;
+  margin-left: 20px;
+  transition: color 0.3s;
+}
+
+nav a:hover {
+  color: var(--hover-medium-brown);
+}
+
+.food-list {
+  max-width: 1200px;
+  margin: 30px auto;
+  padding: 20px;
+}
+
+.food-list h2 {
+  font-size: 26px;
+  color: var(--primary-dark-brown);
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.food-list h2 i {
+  margin-right: 10px;
+  font-size: 30px;
+  color: var(--hover-medium-brown);
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 14px;
+  margin-bottom: 25px;
+  border: 1px solid var(--border-muted);
+  border-radius: 6px;
+  background: var(--background-light);
+  color: var(--primary-dark-brown);
+  transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus {
+  outline: none;
+  border-color: var(--hover-medium-brown);
+  box-shadow: 0 0 5px var(--hover-medium-brown);
+}
+
+input::placeholder {
+  color: var(--placeholder-muted);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--background-light);
+  box-shadow: 0 0 20px rgba(91, 64, 51, 0.15);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+thead {
+  background: var(--hover-medium-brown);
+  color: var(--text-light);
+}
+
+th, td {
+  padding: 12px 15px;
+  text-align: left;
+  font-size: 14px;
+}
+
+tbody tr {
+  border-bottom: 1px solid var(--border-muted);
+  transition: background 0.3s, color 0.3s;
+  cursor: default;
+}
+
+tbody tr:nth-child(even) {
+  background: #f1ede8;
+}
+
+tbody tr:hover {
+  background: var(--hover-medium-brown);
+  color: var(--text-light);
+}
+
+td img {
+  width: 75px;
+  height: 55px;
+  object-fit: cover;
+  border-radius: 5px;
+  border: 1px solid var(--primary-dark-brown);
+  transition: transform 0.3s ease;
+}
+
+td img:hover {
+  transform: scale(1.05);
+  border-color: var(--hover-medium-brown);
+}
+
+.btn {
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  background: var(--primary-dark-brown);
+  color: var(--text-light);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+}
+
+.btn:hover:not(:disabled) {
+  background: var(--hover-medium-brown);
+  color: var(--text-light);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.status {
+  padding: 5px 12px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 500;
+  display: inline-block;
+  user-select: none;
+}
+
+.status.available {
+  background-color: var(--status-available);
+  color: var(--text-light);
+}
+
+.status.distributed {
+  background-color: var(--status-distributed);
+  color: var(--primary-dark-brown);
+}
+
+@media (max-width: 768px) {
+  th, td {
+    font-size: 12px;
+    padding: 10px;
+  }
+
+  nav h2 {
+    font-size: 18px;
+  }
+
+  .food-list h2 {
+    font-size: 20px;
+  }
+
+  input[type="text"] {
+    font-size: 13px;
+  }
+
+  td img {
+    width: 60px;
+    height: 45px;
+  }
+}
+</style>
+
+</head>
+<body>
+
+  <nav>
+    <h2>🍲 Food Donation Portal</h2>
+    <div>
+      <a href="avfood.html">Available Food</a>
+      <a href="fooddetails.html">Donation Details</a>
+    </div>
+  </nav>
+
+  <div class="food-list">
+    <h2><i class='bx bx-food-menu'></i> Available Food List</h2>
+
+    <input type="text" id="searchInput" placeholder="Search anything..." onkeyup="searchTable()" />
+
+    <div style="overflow-x: auto;">
+      <table>
+        <thead>
+          <tr>
+            <th>Image</th>
+            <th>Food Items</th>
+            <th>Quantity</th>
+            <th>Type</th>
+            <th>Donor</th>
+            <th>Contact Person</th>
+            <th>Phone</th>
+            <th>Address</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Creation Date</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><img src="https://source.unsplash.com/80x60/?rice" alt="Food"></td>
+            <td>Cooked Rice</td>
+            <td>25 boxes</td>
+            <td>Vegetarian</td>
+            <td>ABC Restaurant</td>
+            <td>Mr. Rajesh Kumar</td>
+            <td>9876543210</td>
+            <td>12, Anna Salai Road</td>
+            <td>Chennai</td>
+            <td>Tamil Nadu</td>
+            <td>2025-07-20</td>
+            <td><span class="status available">Available</span></td>
+            <td><button class="btn" onclick="confirmAction(this)">Redistribute</button></td>
+          </tr>
+          <tr>
+            <td><img src="https://source.unsplash.com/80x60/?biryani" alt="Food"></td>
+            <td>Biryani</td>
+            <td>15 plates</td>
+            <td>Non-Veg</td>
+            <td>FoodHearts NGO</td>
+            <td>Ms. Ayesha Shaikh</td>
+            <td>9123456789</td>
+            <td>7-1-23, Ameerpet Road</td>
+            <td>Hyderabad</td>
+            <td>Telangana</td>
+            <td>2025-07-22</td>
+            <td><span class="status available">Available</span></td>
+            <td><button class="btn" onclick="confirmAction(this)">Redistribute</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    function searchTable() {
+      const input = document.getElementById("searchInput").value.toLowerCase();
+      const rows = document.querySelectorAll("tbody tr");
+
+      rows.forEach(row => {
+        const cells = row.querySelectorAll("td");
+        const match = [...cells].some(td => td.textContent.toLowerCase().includes(input));
+        row.style.display = match ? "" : "none";
+      });
+    }
+
+    function confirmAction(button) {
+      const confirmed = confirm("Are you sure you want to redistribute this item?");
+      if (confirmed) {
+        button.textContent = "Redistributing...";
+        button.disabled = true;
+        const statusSpan = button.closest('tr').querySelector('.status');
+        statusSpan.textContent = 'Distributed';
+        statusSpan.className = 'status distributed';
+      }
+    }
+  </script>
+
+</body>
+</html>
